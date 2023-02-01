@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./container/home/home";
 import Dashboard from "./container/dashboard/dashboard";
-import Todo from "./container/todo/todo";
+import List from "./container/list/list";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/todo" element={<Todo />} />
+        <Route path="/admin/list" element={<List />} />
       </Routes>
     </BrowserRouter>
   );

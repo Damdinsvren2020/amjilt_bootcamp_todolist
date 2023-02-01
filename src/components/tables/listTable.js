@@ -1,41 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { Modal } from "@mantine/core";
+import Swal from "sweetalert2";
 const getDatafromLS = () => {
-  const data = localStorage.getItem("books");
+  const data = localStorage.getItem("lists");
   if (data) {
     return JSON.parse(data);
   } else {
     return [];
   }
 };
-const TodoTable = () => {
+
+const List_Table = () => {
   const [opened, setOpened] = useState(false);
-  const [books, setbooks] = useState(getDatafromLS());
+  const [lists, setLists] = useState(getDatafromLS());
+  console.log("array", lists);
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [isbn, setIsbn] = useState("");
-  const handleAddBookSubmit = (e) => {
+  const [description, setDescription] = useState("");
+  const handleAddListSubmit = (e) => {
     e.preventDefault();
-    let book = {
+    let list = {
       title,
-      author,
-      isbn,
+      description,
     };
-    setbooks([...books, book]);
+    setLists([...lists, list]);
     setTitle("");
-    setAuthor("");
-    setIsbn("");
-  };
-  const deleteBook = (isbn) => {
-    const filteredBooks = books.filter((element, index) => {
-      return element.isbn !== isbn;
+    setDescription("");
+    Swal.fire({
+      title: "Амжилттай нэмэгдлээ",
+      icon: "success",
     });
-    setbooks(filteredBooks);
+  };
+  const deleteList = (description) => {
+    const filteredLists = lists.filter((element, index) => {
+      return element.description !== description;
+    });
+    setLists(filteredLists);
   };
   useEffect(() => {
-    localStorage.setItem("books", JSON.stringify(books));
-  }, [books]);
+    localStorage.setItem("lists", JSON.stringify(lists));
+  }, [lists]);
   return (
     <div>
       <div>
@@ -62,44 +66,35 @@ const TodoTable = () => {
                       scope="col"
                       className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                     >
-                      Нэр
+                      Гарчиг
                     </th>
                     <th
                       scope="col"
                       className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                     >
-                      Овог
+                      Тайлбар
                     </th>
                     <th
                       scope="col"
                       className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                     >
-                      Last
-                    </th>
-                    <th
-                      scope="col"
-                      className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Handle
+                      Үйлдэл
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {books.map((book) => (
+                  {lists.map((list) => (
                     <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {book.isbn}
+                        {list.title}
                       </td>
                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {book.title}
-                      </td>
-                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {book.author}
+                        {list.description}
                       </td>
                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         <AiFillDelete
                           className="text-red-500 text-lg"
-                          onClick={() => deleteBook(book.isbn)}
+                          onClick={() => deleteList(list.description)}
                         />
                       </td>
                     </tr>
@@ -113,15 +108,15 @@ const TodoTable = () => {
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Content нэмэх"
+        title="List нэмэх"
       >
         <div className="flex justify-center">
           <div className="mb-3 xl:w-96">
             <label
-              for="exampleText0"
+              for="exampleTel0"
               className="form-label inline-block mb-2 text-gray-700"
             >
-              Title
+              Гарчиг
             </label>
             <input
               type="text"
@@ -144,22 +139,23 @@ const TodoTable = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-              placeholder="Title нэр оруулна уу !"
+              id="title"
+              placeholder="Та гарчиг аа оруулна уу"
             />
           </div>
         </div>
         <div className="flex justify-center">
           <div className="mb-3 xl:w-96">
             <label
-              for="exampleText0"
+              for="exampleTel0"
               className="form-label inline-block mb-2 text-gray-700"
             >
-              Author
+              Тайлбар
             </label>
             <input
               type="text"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className="
         form-control
         block
@@ -177,48 +173,17 @@ const TodoTable = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-              placeholder="Title нэр оруулна уу !"
+              id="description"
+              placeholder="Та тайлбар аа оруулна уу"
             />
           </div>
         </div>
-        <div className="flex justify-center">
-          <div className="mb-3 xl:w-96">
-            <label
-              for="exampleText0"
-              className="form-label inline-block mb-2 text-gray-700"
-            >
-              IsBin
-            </label>
-            <input
-              type="text"
-              value={isbn}
-              onChange={(e) => setIsbn(e.target.value)}
-              className="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      "
-              placeholder="Title нэр оруулна уу !"
-            />
-          </div>
-        </div>
+
         <div className="flex space-x-2 justify-end">
           <button
             type="button"
             className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            onClick={handleAddBookSubmit}
+            onClick={handleAddListSubmit}
           >
             Нэмэх
           </button>
@@ -228,4 +193,4 @@ const TodoTable = () => {
   );
 };
 
-export default TodoTable;
+export default List_Table;

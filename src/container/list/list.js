@@ -1,7 +1,8 @@
 import React from "react";
 import Sidebar from "../../components/sidebar/sidebar";
-import TodoTable from "../../components/tables/todotable";
-const Todo = () => {
+import List_Table from "../../components/tables/listTable";
+
+const List = () => {
   return (
     <div className="w-full">
       <div className="p-[10px] m-auto">
@@ -10,7 +11,7 @@ const Todo = () => {
             <Sidebar />
           </div>
           <div className="w-full ml-[5px] bg-[#FAF8F8]">
-            <TodoTable />
+            <List_Table />
           </div>
         </div>
       </div>
@@ -18,4 +19,4 @@ const Todo = () => {
   );
 };
 
-export default Todo;
+export default List;

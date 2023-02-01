@@ -22,7 +22,7 @@ const Sidebar = () => {
               <AiFillFileImage />
             </div>
             <span className="Sidebar_Menu_list">
-              <Link to={"/admin/todo"}>Todo</Link>
+              <Link to={"/admin/list"}>List</Link>
             </span>
           </span>
         </div>
